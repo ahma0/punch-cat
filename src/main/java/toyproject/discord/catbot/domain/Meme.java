@@ -23,15 +23,16 @@ public class Meme extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
-    @Column
-    private String guildId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guild_id", referencedColumnName = "id")
+    private DiscordGuild guildId;
 
     protected Meme() {
         super(Domain.MEME);
     }
 
     @Builder
-    public Meme(String command, String imageUrls, Defaults defaults, String description, String guildId) {
+    public Meme(String command, String imageUrls, Defaults defaults, String description, DiscordGuild guildId) {
         this();
         this.command = command;
         this.imageUrls = imageUrls;

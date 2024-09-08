@@ -2,24 +2,23 @@ package toyproject.discord.catbot.listener;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.user.UserActivityStartEvent;
-import net.dv8tion.jda.api.events.user.update.GenericUserPresenceEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import toyproject.discord.catbot.service.DiscordGuildService;
 import toyproject.discord.catbot.service.MemeService;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
+import java.util.Set;
 
 @Log4j2
 @Component
@@ -27,14 +26,22 @@ import java.util.Objects;
 public class CatBotListener extends ListenerAdapter {
 
     private final MemeService memeService;
+    private final DiscordGuildService guildService;
 
     @Override
     public void onUserActivityStart(@NotNull UserActivityStartEvent event) {
         String message = memeService.getMessageForStartingActivities(event);
         File memeFile = memeService.getRandomMemeFile();
-        Guild guild = event.getGuild();
 
-        for (TextChannel channel : guild.getTextChannels()) {
+        Guild guild = event.getGuild();
+        Set<String> channelIds = guildService.getChannelIds(guild);
+        List<TextChannel> channels = channelIds.stream().map(guild::getTextChannelById).toList();
+
+        if (channelIds.isEmpty()) {
+            channels = guild.getTextChannels();
+        }
+
+        for (TextChannel channel : channels) {
             channel
                     .sendMessage(message)
                     .addFiles(FileUpload.fromData(memeFile))

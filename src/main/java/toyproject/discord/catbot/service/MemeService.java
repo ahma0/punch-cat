@@ -11,7 +11,6 @@ import toyproject.discord.catbot.exception.CBNotFoundException;
 import toyproject.discord.catbot.repository.MemeRepository;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.Objects;
 
 @Service
@@ -25,7 +24,6 @@ public class MemeService {
         Activity activity = event.getNewActivity();
 
         return user.getName() + "님이 " + activity.getName() + "을 시작했습니다!!!!";
-
     }
 
     public File getRandomMemeFile() {

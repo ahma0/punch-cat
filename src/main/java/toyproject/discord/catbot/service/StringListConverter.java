@@ -12,7 +12,6 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-
     @Override
     public String convertToDatabaseColumn(List<String> strings) {
         try {
