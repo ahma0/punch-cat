@@ -21,12 +21,13 @@ public class DiscordGuild extends BaseEntity {
     private String guildId;
 
     @Column(nullable = false)
-    private String name;
+    private String guildName;
 
     @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "guild_channels")
     private Set<String> channelsId = new HashSet<>();
 
-    @OneToMany(mappedBy = "discord_guild")
+    @OneToMany(mappedBy = "guild")
     private List<Meme> memes = new ArrayList<>();
 
     protected DiscordGuild() {
@@ -37,7 +38,7 @@ public class DiscordGuild extends BaseEntity {
     public DiscordGuild(String guildId, String name, Set<String> channelsId) {
         this();
         this.guildId = guildId;
-        this.name = name;
+        this.guildName = name;
         this.channelsId = channelsId;
     }
 

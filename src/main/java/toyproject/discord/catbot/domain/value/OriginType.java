@@ -1,7 +1,7 @@
 package toyproject.discord.catbot.domain.value;
 
-public enum Defaults {
+public enum OriginType {
 
-    DEFAULTS, ADDED
+    BASIC, ADDED
 
 }

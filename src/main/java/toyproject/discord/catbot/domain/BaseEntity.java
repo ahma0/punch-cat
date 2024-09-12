@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import toyproject.discord.catbot.domain.value.Domain;
 
 import java.io.Serializable;
@@ -21,7 +22,7 @@ public class BaseEntity implements Serializable {
     public BaseEntity() {
     }
 
-    public BaseEntity(Domain domain) {
+    public BaseEntity(@NotNull Domain domain) {
         id = String.join("", domain.toString().toLowerCase(), "_", generateUUID());
     }
 
@@ -38,6 +39,7 @@ public class BaseEntity implements Serializable {
         return Objects.hash(id);
     }
 
+    @NotNull
     private String generateUUID() {
         return UUID.randomUUID().toString().replace("-", "");
     }

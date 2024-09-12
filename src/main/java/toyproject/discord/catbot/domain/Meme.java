@@ -3,7 +3,7 @@ package toyproject.discord.catbot.domain;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
-import toyproject.discord.catbot.domain.value.Defaults;
+import toyproject.discord.catbot.domain.value.OriginType;
 import toyproject.discord.catbot.domain.value.Domain;
 
 @Getter
@@ -18,27 +18,27 @@ public class Meme extends BaseEntity {
     private String imageUrls;
 
     @Enumerated(EnumType.STRING)
-    private Defaults defaults;
+    private OriginType originType;
 
     @Column(nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guild_id", referencedColumnName = "id")
-    private DiscordGuild guildId;
+    private DiscordGuild guild;
 
     protected Meme() {
         super(Domain.MEME);
     }
 
     @Builder
-    public Meme(String command, String imageUrls, Defaults defaults, String description, DiscordGuild guildId) {
+    public Meme(String command, String imageUrls, OriginType originType, String description, DiscordGuild guild) {
         this();
         this.command = command;
         this.imageUrls = imageUrls;
-        this.defaults = defaults;
+        this.originType = originType;
         this.description = description;
-        this.guildId = guildId;
+        this.guild = guild;
     }
 
 }
