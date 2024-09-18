@@ -23,8 +23,10 @@ public class DiscordGuild extends BaseEntity {
     @Column(nullable = false)
     private String guildName;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "guild_channels")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "guild_channels",
+            joinColumns = @JoinColumn(name = "guild_id", referencedColumnName = "id")
+    )
     private Set<String> channelsId = new HashSet<>();
 
     @OneToMany(mappedBy = "guild")
@@ -47,5 +49,9 @@ public class DiscordGuild extends BaseEntity {
                 .guildId(guild.getId())
                 .name(guild.getName())
                 .build();
+    }
+
+    public void addChannelIds(String channelsId) {
+        this.channelsId.add(channelsId);
     }
 }

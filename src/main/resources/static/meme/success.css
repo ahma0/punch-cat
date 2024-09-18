@@ -1,0 +1,24 @@
+body {
+    background: #282e45;
+}
+
+.form-success-box {
+    /*font-family: 'GowunDodum-Regular';*/
+    font-family: 'Pretendard-Regular';
+    margin: auto;
+    width: fit-content;
+    display: flex;
+    background: rgba(117, 120, 145, 0.44);
+    border-radius: 10px;
+    border: 2px solid white;
+    /*border: solid 2px black;*/
+    flex-direction: column;
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 22px 70px 4px;
+    padding: 10px;
+    color: white;
+}
+
+.form-success-box h1 {
+    text-align: center;
+    padding: 5rem;
+}

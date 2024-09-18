@@ -10,7 +10,7 @@
     <div class="container-register-meme">
         <h2>밈 등록 폼</h2>
         <div id="register-form-div">
-            <form action="#" th:action="@{/submit}" method="post" enctype="multipart/form-data">
+            <form action="#" th:action="@{/submit}" method="post" th:object="${meme}" enctype="multipart/form-data">
                 <div>
                     <input type="text" id="command" class="input-box" name="command" placeholder="커맨드를 입력하세요" required/>
                 </div>
@@ -19,7 +19,7 @@
                               required></textarea>
                 </div>
                 <div>
-                    <input type="file" id="files" class="input-button-box" name="파일 등록하기" accept="image/gif" required/>
+                    <input type="file" id="imageFile" class="input-button-box" name="파일 등록하기" accept="image/gif" required/>
                 </div>
                 <div id="register-form-div-button">
                     <button class="button button--ujarak button--border-medium button--round-s button--text-thin button--size-s">

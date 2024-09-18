@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.utils.FileUpload;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import toyproject.discord.catbot.domain.DiscordGuild;
 import toyproject.discord.catbot.service.DiscordGuildService;
 import toyproject.discord.catbot.service.MemeService;
 
@@ -55,11 +56,19 @@ public class CatBotListener extends ListenerAdapter {
         }
     }
 
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         switch (event.getName()) {
-            case "add":
+            case "add-form":
                 sendButtonMessageForRegister(event);
+                break;
+            case "register":
+                Guild guild = event.getGuild();
+                DiscordGuild discordGuild = guildService.registerGuild(guild);
+                guildService.addChannelIds(discordGuild, event.getChannelId());
+                event.reply("서버 등록에 완료햇긔").queue();
+
                 break;
             default:
                 return;
@@ -72,6 +81,7 @@ public class CatBotListener extends ListenerAdapter {
 
         switch (buttonId) {
             case "registerMeme":
+                event.replyEmbeds(createEmbedForRegisterMemes(event)).queue();
                 createEmbedForRegisterMemes(event);
                 break;
         }

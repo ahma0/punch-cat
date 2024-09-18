@@ -3,6 +3,7 @@ package toyproject.discord.catbot.config;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,11 +21,18 @@ public class JDAConfig {
 
         CatBotListener catBotListener = context.getBean(CatBotListener.class);
 
-        return JDABuilder.createDefault(discordBotToken)
-                .setActivity(Activity.playing("메시지 대기 중"))
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+        JDA jda = JDABuilder.createDefault(discordBotToken)
+                .setActivity(Activity.playing("punch"))
+                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(catBotListener)
                 .build();
+
+        jda.updateCommands().addCommands(
+                Commands.slash("add-form", "meme form 등록"),
+                Commands.slash("register", "서버 등록")
+        ).queue();
+
+        return jda;
     }
 
 }

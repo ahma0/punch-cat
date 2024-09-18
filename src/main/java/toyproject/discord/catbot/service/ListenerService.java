@@ -1,14 +1,17 @@
 package toyproject.discord.catbot.service;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.jetbrains.annotations.NotNull;
+import toyproject.discord.catbot.domain.CBUrls;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class ListenerService {
 
@@ -46,15 +49,19 @@ public class ListenerService {
                 ).queue();
     }
 
-    public static void createEmbedForRegisterMemes(@NotNull ButtonInteractionEvent event) {
+    @NotNull
+    public static MessageEmbed createEmbedForRegisterMemes(@NotNull ButtonInteractionEvent event) {
+        String id = Objects.requireNonNull(event.getGuild()).getId();
+
         EmbedBuilder embed = new EmbedBuilder();
         embed
                 .setTitle("밈 등록하러 가기")
                 .setDescription("밈을 등록하기 위해 홈페이지 이동하러 가긔")
                 .setColor(Color.green)
-                .setUrl("http://127.0.0.1:8080/meme/register")
-                .setThumbnail("imageUrl");
-        event.replyEmbeds(embed.build()).queue();
+                .setUrl(CBUrls.createMemeRegisterUrl(id));
+//                .setThumbnail("imageUrl");
+
+        return embed.build();
     }
 
 }

@@ -3,8 +3,14 @@ package toyproject.discord.catbot.domain;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.web.multipart.MultipartFile;
+import toyproject.discord.catbot.controller.dto.MemeSaveRequest;
 import toyproject.discord.catbot.domain.value.OriginType;
 import toyproject.discord.catbot.domain.value.Domain;
+
+import java.io.File;
+import java.io.IOException;
 
 @Getter
 @Entity
@@ -39,6 +45,15 @@ public class Meme extends BaseEntity {
         this.originType = originType;
         this.description = description;
         this.guild = guild;
+    }
+
+    public static Meme from(@NotNull MemeSaveRequest request, DiscordGuild guild, String filePath) {
+        return Meme.builder()
+                .command(request.command())
+                .description(request.description())
+                .imageUrls(filePath)
+                .guild(guild)
+                .build();
     }
 
 }
