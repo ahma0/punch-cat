@@ -3,6 +3,7 @@ package toyproject.discord.catbot.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import toyproject.discord.catbot.domain.DiscordGuild;
 import toyproject.discord.catbot.domain.Meme;
 
 import java.util.Optional;
@@ -14,5 +15,7 @@ public interface MemeRepository extends JpaRepository<Meme, String> {
     Optional<Meme> findRandomMeme();
 
     Optional<Meme> findOneByOrderByIdDesc();
+
+    boolean existsByCommandAndGuild(String command, DiscordGuild guild);
 
 }

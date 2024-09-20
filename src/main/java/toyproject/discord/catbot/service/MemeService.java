@@ -1,6 +1,7 @@
 package toyproject.discord.catbot.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.user.UserActivityStartEvent;
@@ -18,6 +19,7 @@ import toyproject.discord.catbot.repository.MemeRepository;
 import java.io.File;
 import java.util.Objects;
 
+@Log4j2
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -29,6 +31,10 @@ public class MemeService {
         String filePath = FilePath.createFilePath(request.imageFile());
 
         Meme meme = Meme.from(request, guild, filePath);
+        if (memeRepository.existsByCommandAndGuild(request.command(), guild)) {
+            log.info("이미 저장되어있는 커맨드 입니다.");
+            return;
+        }
         memeRepository.save(meme);
 
         if (!memeRepository.existsById(meme.getId())) {
