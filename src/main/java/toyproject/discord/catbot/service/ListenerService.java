@@ -50,7 +50,7 @@ public class ListenerService {
     }
 
     @NotNull
-    public static MessageEmbed createEmbedForRegisterMemes(@NotNull ButtonInteractionEvent event) {
+    public static MessageEmbed createEmbedForRegisterMemes(@NotNull SlashCommandInteractionEvent event) {
         String id = Objects.requireNonNull(event.getGuild()).getId();
 
         EmbedBuilder embed = new EmbedBuilder();

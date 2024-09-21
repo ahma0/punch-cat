@@ -19,7 +19,6 @@ import toyproject.discord.catbot.domain.DiscordGuild;
 import toyproject.discord.catbot.service.DiscordGuildService;
 import toyproject.discord.catbot.service.MemeService;
 
-import java.awt.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +60,7 @@ public class CatBotListener extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         switch (event.getName()) {
             case "add-form":
-                sendButtonMessageForRegister(event);
+                event.replyEmbeds(createEmbedForRegisterMemes(event)).queue();
                 break;
             case "register":
                 Guild guild = event.getGuild();
@@ -75,17 +74,17 @@ public class CatBotListener extends ListenerAdapter {
         }
     }
 
-    @Override
-    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        String buttonId = event.getComponentId();
-
-        switch (buttonId) {
-            case "registerMeme":
-                event.replyEmbeds(createEmbedForRegisterMemes(event)).queue();
-                createEmbedForRegisterMemes(event);
-                break;
-        }
-    }
+//    @Override
+//    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+//        String buttonId = event.getComponentId();
+//
+//        switch (buttonId) {
+//            case "registerMeme":
+//                event.replyEmbeds(createEmbedForRegisterMemes(event)).queue();
+//                createEmbedForRegisterMemes(event);
+//                break;
+//        }
+//    }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
